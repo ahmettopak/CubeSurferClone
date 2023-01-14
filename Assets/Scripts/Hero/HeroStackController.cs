@@ -1,17 +1,32 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class HeroStackController : MonoBehaviour
 {
     public List<GameObject> blockList = new List<GameObject>();
+    private GameManager gameManager;
     private GameObject lastBlockObject;
+    private RaycastHit hit;
 
     private void Start()
     {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         UpdateLastBlockObject();
     }
 
+    private void FixedUpdate() {
+        if (Physics.Raycast(transform.position, Vector3.back, out hit, 1f) || Physics.Raycast(transform.position, Vector3.forward, out hit, 1f)) {
+        
+            if (hit.transform.name == "ObstacleCube") {
+                Time.timeScale = 0;
+                gameManager.gameOverPanel.SetActive(true);
 
+            }
+        }
+    }
 
     public void IncreaseNewBlock(GameObject _gameObject)
     {
@@ -27,6 +42,7 @@ public class HeroStackController : MonoBehaviour
     {
         _gameObject.transform.parent = null;
         blockList.Remove(_gameObject);
+        //Destroy(_gameObject);
         UpdateLastBlockObject();
     }
 
@@ -35,4 +51,5 @@ public class HeroStackController : MonoBehaviour
     {
         lastBlockObject = blockList[blockList.Count - 1];
     }
+    
 }

@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Obstacle
   - MainCube
+  - Cube
+  - GameOverPanel
+  - WinPanel
+  - ScoreText
+  - CubeText
   layers:
   - Default
   - TransparentFX
